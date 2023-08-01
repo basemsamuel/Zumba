@@ -1,0 +1,46 @@
+<jsp:include page="adminheader.jsp"></jsp:include>
+
+<div class="mycontainer">
+	<div align="center">
+	<br>
+	<h3>VIEW BATCHES</h3>
+	<br>
+	<br>
+	<div>
+		<table class="formtable">
+			<tr>
+				<td style="padding: 10px;">
+					<div class='center'>
+						<form style="width: 100%;" action="Admin" method = "POST">
+						    <h2>View Batches</h2>
+						    <input type="hidden" name="htmlFormName" value="ViewBatches" />
+						    <button type="submit" value="Submit">Refresh</button>
+						    <table class="batchviewtable">
+						    	<tr>
+							    	<th style="padding:5px,">Batch Id</th>
+							    	<th>Batch Name</th>
+							    	<th>Start Time</th>
+							    	<th>End Time</th>
+							    	<th>Days</th>
+							    	<th>Capacity</th>
+							    	<th>Details</th>
+							    	<th>Delete</th>
+						    	</tr>
+						    </table>
+						</form>
+					</div>
+				
+				</td>
+			</tr>
+		</table>
+		<br>
+		<div class="emsg">
+			<p>
+				${listerrorMessage}
+			</p>
+		</div>
+	</div>
+</div>
+							
+
+<jsp:include page="footer.jsp"></jsp:include>

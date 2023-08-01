@@ -1,0 +1,53 @@
+package com.ZumbaProStudio.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class RegisterServlet
+ */
+public class RegisterServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public RegisterServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		String fname = request.getParameter("fname");
+		String lname = request.getParameter("lname");
+		if (email.isEmpty() || password.isEmpty() || fname.isEmpty() || lname.isEmpty()) {
+			String message = "Sorry!! First Name, Last Name, Email and Password Cannot be Blank";
+			System.out.println(message);
+			request.setAttribute("errorMessage", message);
+			request.getRequestDispatcher("/register.jsp").forward(request, response);
+		} else {
+			users user = new users();
+			
+			System.out.println("LoginServlet User Details: " + email + " " + password);
+			request.getRequestDispatcher("/register.jsp").forward(request, response);
+		}
+	}
+
+}

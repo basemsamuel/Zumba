@@ -1,0 +1,9 @@
+INDEX VERSION 1.4+/home/basemsamuelgmai/Zumba/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+1754209869.index
+1614676076.index
+1614676076.index
+225343844.index
+3435797791.index
+574234038.index
+572430088.index
+3297068432.index

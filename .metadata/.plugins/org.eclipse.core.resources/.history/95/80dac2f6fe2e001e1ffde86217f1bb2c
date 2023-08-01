@@ -1,0 +1,60 @@
+package com.ZumbaProStudio.controller;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class DB {
+	
+	Connection connection;
+	PreparedStatement preparedStatement;
+	
+	public DB() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("[DB] Driver Loaded");
+			
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/estore","john","passWord#");
+			System.out.println("[DB] Connectoin Created");
+			
+		} catch (Exception e) {
+			System.out.println("Something Went Wrong: "+e);
+			//Something Went Wrong: java.lang.ClassNotFoundException: com.mysql.cj.jdbc.Driver
+		}
+	}
+	
+	public int registerUser(User user) {
+		int result = 0;
+		
+		try {
+			String sql = "INSERT INTO users values(null, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, user.fname);
+			preparedStatement.setString(2, user.lname);
+			preparedStatement.setInt(3, user.age);
+			preparedStatement.setInt(4, user.age);
+			preparedStatement.setInt(5, user.age);
+			preparedStatement.setInt(6, user.age);
+			preparedStatement.setInt(7, user.age);
+			preparedStatement.setInt(8, user.age);
+			preparedStatement.setInt(9, user.age);
+
+			result = preparedStatement.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("Something Went Wrong Again: "+e);
+		}
+		
+		return result;
+	}
+	
+	public void closeConnection() {
+		try {
+			connection.close();
+			System.out.println("[DB] Connection to DB Closed");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+}

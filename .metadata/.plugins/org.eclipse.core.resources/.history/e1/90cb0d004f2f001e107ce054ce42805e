@@ -1,0 +1,192 @@
+package com.ZumbaProStudio.controller;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.sql.CallableStatement;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+
+public class DB {
+	
+	Connection connection;
+	PreparedStatement preparedStatement;
+	
+	public DB() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("[DB] Driver Loaded");
+			
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/zumba","john","passWord#");
+			System.out.println("[DB] Connectoin Created");
+			
+		} catch (Exception e) {
+			System.out.println("Could Not Connect to the Database: "+e);
+			//Something Went Wrong: java.lang.ClassNotFoundException: com.mysql.cj.jdbc.Driver
+		}
+	}
+	
+	public String registerUser(users user) {
+		String message = "";
+		
+		try {
+			
+			String sql = "SELECT * FROM users WHERE email LIKE '" + user.email + "'";
+			preparedStatement = connection.prepareStatement(sql);
+			ResultSet set  = preparedStatement.executeQuery(sql);
+			
+			if (!set.isBeforeFirst() ) {    
+			    System.out.println("Email Does Not Exist. Try to INSERT INTO users"); 
+				try {
+					String sql2 = "INSERT INTO users values(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					preparedStatement = connection.prepareStatement(sql2);
+					preparedStatement.setString(1, user.fname);
+					preparedStatement.setString(2, user.lname);
+					preparedStatement.setInt(3, user.age);
+					preparedStatement.setString(4, user.gender);
+					preparedStatement.setString(5, user.email);
+					preparedStatement.setString(6, user.address);
+					preparedStatement.setString(7, user.city);
+					preparedStatement.setString(8, user.zipcode);
+					preparedStatement.setString(9, user.phone);
+					preparedStatement.setString(10, user.password);
+
+					int result = preparedStatement.executeUpdate();
+					System.out.println("result " + result);
+					message = result > 0 ? "You have been added in database successfully, Please Login." : "Something Went Wrong, Please Try Again 1";
+					
+				} catch (Exception e) {
+					System.out.println("System Error: " + e);
+					message = "Something Went Wrong, Please Try Again 2";
+				}
+			} else {
+				message = "Email Already Exists";
+			}
+			
+		} catch (Exception e) {
+			System.out.println("e: " + e);
+			message = "Something Went Wrong, Please Try Again 3";
+		}
+		
+		
+		return message;
+	}
+	
+	
+	public String LoginUser(users user) {
+		String message = "";
+		
+		try {
+			String sql = "SELECT * FROM users WHERE email LIKE '" + user.email + "' AND password LIKE '" + user.password + "'";
+			preparedStatement = connection.prepareStatement(sql);
+			ResultSet set  = preparedStatement.executeQuery(sql);
+			
+			if (!set.isBeforeFirst() ) {
+					message = "Incorrect email or password";
+					System.out.println(message);
+					
+			} else {
+				set.next();
+				String name = set.getString("fname") + " " + set.getString("lname");
+				message = "Welcome " + name;
+				System.out.println(message);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("e: " + e);
+			message = "Something Went Wrong, Please Try Again 3";
+			System.out.println(message);
+		}
+		
+		
+		
+		return message;
+	}
+	
+	public String addBatchToDB(batchInfo batch) {
+		String message = "";
+
+		try {
+			
+			String sql = "SELECT * FROM batches WHERE batch_name LIKE '" + batch.name + "'";
+			preparedStatement = connection.prepareStatement(sql);
+			ResultSet set  = preparedStatement.executeQuery(sql);
+			
+			if (!set.isBeforeFirst() ) {    
+			    System.out.println("Batch Does Not Exist. Try to INSERT INTO batches"); 
+				try {
+					String sql2 = "INSERT INTO batches values(null, ?, ?, ?, ?, ?, ?)";
+					preparedStatement = connection.prepareStatement(sql2);
+					preparedStatement.setString(1, batch.name);
+					preparedStatement.setString(2, batch.stime);
+					preparedStatement.setString(3, batch.etime);
+					preparedStatement.setString(4, batch.days);
+					preparedStatement.setInt(5, batch.capacity);
+					preparedStatement.setString(6, batch.description);
+
+					int result = preparedStatement.executeUpdate();
+					System.out.println("result " + result);
+					message = result > 0 ? "Batch Added!" : "Something Went Wrong, Please Try Again ErrorCode:1";
+					
+				} catch (Exception e) {
+					System.out.println("System Error: " + e);
+					message = "Something Went Wrong, Please Try Again ErrorCode:2";
+				}
+			} else {
+				message = "Batch Already Exists";
+			}
+			
+		} catch (Exception e) {
+			System.out.println("e: " + e);
+			message = "Something Went Wrong, Please Try Again ErrorCode:3";
+		}
+		
+		
+		return message;
+	}
+	
+	
+	public ArrayList<batchInfo> viewBatchFromDB() {
+		ArrayList<batchInfo> customers = new ArrayList<batchInfo>();
+		try {
+			String sql = "SELECT * FROM batches ORDER by bid";
+			preparedStatement = connection.prepareStatement(sql);
+			ResultSet set  = preparedStatement.executeQuery();
+			//ResultSet set = statement.executeQuery(sql);
+			while(set.next()) {
+				batchInfo batch = new batch();
+				batch.setBid(set.getInt(1));
+				batch.setBatchName(set.getString(2));
+				batch.setStart(set.getString(3));
+				batch.setEnd(set.getString(4));
+				batch.setDays(set.getString(5));
+				batch.setCapacity(set.getInt(6));
+				batch.setDetails(set.getString(7));
+
+				
+				batch.add(batch);
+				
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("Exception Occured: " + e);
+		}
+		
+		return customers;
+	}
+	
+	public void closeConnection() {
+		try {
+			connection.close();
+			System.out.println("[DB] Connection to DB Closed");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+}

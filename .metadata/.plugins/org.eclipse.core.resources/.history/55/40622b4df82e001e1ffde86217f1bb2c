@@ -1,0 +1,61 @@
+package com.ZumbaProStudio.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Servlet implementation class LoginFilter
+ */
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoginServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+
+//		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		if (email.isEmpty() || password.isEmpty()) {
+			String message = "<h3>Sorry!! Email and Password Cannot be Blank</h3>";
+			System.out.println(message);
+			request.setAttribute("messageResponse", message);
+//			request.getRequestDispatcher("/login.jsp").forward(request, response);
+//			System.out.println("<font color=red>Please fill all the fields</font>");
+//		    RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+//		    rd.forward(request, response);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			
+		} else {
+			System.out.println("LoginServlet User Details: " + email + " " + password);
+			request.getRequestDispatcher("/register.jsp").forward(request, response);
+		}
+		//doGet(request, response);
+
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+	
+
+}

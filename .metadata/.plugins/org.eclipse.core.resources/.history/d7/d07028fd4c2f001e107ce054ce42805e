@@ -1,0 +1,60 @@
+package com.ZumbaProStudio.controller;
+
+public class batchInfo {
+	public int bid;
+	public String name;
+	public String stime;
+	public String etime;
+	public int capacity;
+	public String description;
+	public String days;
+	
+	public batchInfo() {
+		
+	}
+	
+	public batchInfo(int bid, String name, String stime, String etime, int capacity, String description, String days) {
+		super();
+		this.bid = bid;
+		this.name = name;
+		this.stime = stime;
+		this.etime = etime;
+		this.capacity = capacity;
+		this.description = description;
+		this.days = days;
+	}
+	
+	@Override
+	public String toString() {
+		return "batchInfo [bid=" + bid + ", name=" + name + ", stime=" + stime + ", etime=" + etime + ", capacity=" + capacity + ", description=" + description + ", days=" + days +"]";
+	}
+
+	public void setBid(Integer bid) {
+		this.bid = bid;
+	}
+	
+	public String setBatchName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String setStart() {
+		return start;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+}

@@ -1,0 +1,69 @@
+package com.ZumbaProStudio.controller;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class UserServlet
+ */
+public class UserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UserServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		String htmlFormName = request.getParameter("htmlFormName");
+		System.out.println("String:" + htmlFormName);
+		System.out.println("AddBatch".equals(htmlFormName));
+		String message = "";
+		
+		if ("UserViewBatches".equals(htmlFormName)) {
+			DB db = new DB();
+			//When using array
+//			ArrayList<batchInfo> batches = db.viewBatchFromDB();
+//			batches.forEach(cRef -> System.out.println(cRef));
+			
+			//When using String
+			String batchTableDate = db.viewUserBatchFromDB();
+			System.out.println(batchTableDate);
+			//Loop Through the Array and generate Table Html 
+	        db.closeConnection();
+
+	        ServletContext application = getServletConfig().getServletContext();  
+	        String username = (String) application.getAttribute("usernmae"); 
+	        request.setAttribute("adminUsername", username);
+	        
+			request.setAttribute("batchTableDate", batchTableDate);
+			request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+		} else {
+			response.getWriter().append("htmlFormName:" + htmlFormName);
+			System.out.println("htmlFormName:" + htmlFormName);		
+		}
+		
+	}
+
+}

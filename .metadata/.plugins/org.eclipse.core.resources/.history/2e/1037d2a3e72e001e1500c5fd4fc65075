@@ -1,0 +1,90 @@
+package com.ZumbaProStudio.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Servlet implementation class LoginFilter
+ */
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoginServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		
+		System.out.println("LoginServlet User Details: " + email + " " + password);
+		
+		response.setContentType("text/html");
+		
+		if(email.isEmpty() || password.isEmpty()) {
+			// pass the data to LoginServlet
+			String message ="<h3>Sorry!! Email and Password Cannot be Blank</h3>";
+			PrintWriter out = response.getWriter(); 
+			out.println("<script type=\"text/javascript\">"); 
+			out.println("alert("+message+");"); 
+			out.println("location='login.jsp';"); 
+			out.println("</script>"); 
+		} else {
+			request.getRequestDispatcher("/register.jsp").forward(request, response);			
+		}
+
+	}
+	
+	/*
+	 * protected void doGet(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException { String email =
+	 * request.getParameter("email"); String password =
+	 * request.getParameter("password");
+	 * 
+	 * System.out.println("LoginServlet (doGet) User Details: " + email + " " +
+	 * password);
+	 * 
+	 * response.setContentType("text/html");
+	 * 
+	 * PrintWriter out = response.getWriter(); out.print("<center>"); out.
+	 * print("<p>Welcome to Home<br><a href='index.jsp'>Click to Navigate to Home</a></p>"
+	 * );
+	 * 
+	 * }
+	 * 
+	 * protected void doPost(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException { String email =
+	 * request.getParameter("email"); String password =
+	 * request.getParameter("password");
+	 * 
+	 * System.out.println("LoginServlet (doPost) User Details: " + email + " " +
+	 * password);
+	 * 
+	 * response.setContentType("text/html");
+	 * 
+	 * PrintWriter out = response.getWriter(); out.print("<center>"); out.
+	 * print("<p>Welcome to Home<br><a href='index.jsp'>Click to Navigate to Home</a></p>"
+	 * );
+	 * 
+	 * }
+	 */
+
+}

@@ -1,0 +1,74 @@
+package com.ZumbaProStudio.controller;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Servlet implementation class LoginFilter
+ */
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoginServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		
+		if (email.isEmpty() || password.isEmpty() ) {
+			String message = "Sorry!! All Fields Are Required To Login";
+			System.out.println(message);
+			request.setAttribute("errorMessage", message);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		} else {
+			System.out.println("email: "+email+"  password: "+password);
+			if ("admin".equals(email) && "passWord#".equals(password)) {
+				//Admin Login
+				request.getRequestDispatcher("/admin.jsp").forward(request, response);
+				
+			} else {
+				users user = new users();
+				user.email = email;
+				user.password = password;
+				
+				DB db = new DB();
+				String result = db.LoginUser(user);
+				db.closeConnection();
+				
+				if(!result.contains("ErrorCode") ) {
+					ServletContext application = getServletConfig().getServletContext();  
+
+					application.setAttribute("usernmae", result);  
+					String usernmae = (String) application.getAttribute("usernmae"); 
+					System.out.println(usernmae);
+					request.setAttribute("adminUsername", usernmae);
+					request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+
+				} else {
+					
+					request.setAttribute("errorMessage", result);
+					request.getRequestDispatcher("/login.jsp").forward(request, response);
+				}
+			}
+
+		}
+	}
+
+}

@@ -1,0 +1,86 @@
+package com.ZumbaProStudio.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class AdminServlet
+ */
+public class AdminServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public AdminServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String htmlFormName = request.getParameter("htmlFormName");
+		response.getWriter().append("Served at: ").append(htmlFormName);
+		System.out.println(htmlFormName);
+		
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String htmlFormName = request.getParameter("htmlFormName");
+		System.out.println("String:" + htmlFormName);
+		System.out.println("AddBatch".equals(htmlFormName));
+		String message = "";
+		
+		if ("AddBatch".equals(htmlFormName)) {
+			System.out.println("Entered AddBatch");
+			String name = request.getParameter("name");
+			String stime = request.getParameter("stime");
+			String etime = request.getParameter("etime");
+			String M = request.getParameter("M");
+			String Tu = request.getParameter("Tu");
+			String W = request.getParameter("W");
+			String Th = request.getParameter("Th");
+			String F = request.getParameter("F");
+			String S = request.getParameter("S");
+			String Su = request.getParameter("Su");
+			String capacity = request.getParameter("capacity");
+			String description = request.getParameter("description");
+			System.out.println("name" + name);
+			System.out.println("stime" + stime);
+			System.out.println("etime" + etime);
+			System.out.println("capacity" + capacity);
+			System.out.println("description" + description);
+			
+			if (M == null && Tu == null && W == null && Th == null && F == null && S == null && Su == null) {
+				message = "Please Pick A At Least One Day Of The Week !";
+				request.setAttribute("batcherrorMessage", message);
+				request.getRequestDispatcher("/addbatch.jsp").forward(request, response);
+			} else if (name.isEmpty() || stime.isEmpty() || etime.isEmpty() || capacity.isEmpty() || description.isEmpty()) {
+				message = "Please Enter All Fields !";
+				request.setAttribute("batcherrorMessage", message);
+				request.getRequestDispatcher("/addbatch.jsp").forward(request, response);
+			} else {
+				message = "Success";
+				request.setAttribute("batcherrorMessage", message);
+				request.getRequestDispatcher("/addbatch.jsp").forward(request, response);
+			}
+			
+		} else {
+			response.getWriter().append("htmlFormName:" + htmlFormName);
+			System.out.println("htmlFormName:" + htmlFormName);
+		}
+	}
+
+}

@@ -1,0 +1,17 @@
+if (email.isEmpty() || password.isEmpty()) {
+			String message = "<h3>Sorry!! Email and Password Cannot be Blank</h3>";
+			System.out.println(message);
+//			request.setAttribute("messageResponse", message);
+//			request.getRequestDispatcher("/login.jsp").forward(request, response);
+//			System.out.println("<font color=red>Please fill all the fields</font>");
+//		    RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+//		    rd.forward(request, response);
+		    
+		    message="Invalid Input Please Try Again";
+	        response.getWriter().print("<html><head><title Oops an error happened!</title> </head>");
+	        response.getWriter().print("<body>"+message+"</body>");
+	        response.getWriter().println("</html>");
+		} else {
+			System.out.println("LoginServlet User Details: " + email + " " + password);
+			request.getRequestDispatcher("/register.jsp").forward(request, response);
+		}

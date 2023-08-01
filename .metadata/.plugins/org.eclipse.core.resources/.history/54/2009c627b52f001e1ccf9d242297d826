@@ -1,0 +1,21 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+	 <div class="topnav">
+		<img src="images/logo.png" alt="Zumba Pro Studio">
+		<!-- <a class="active" href="#home">Home</a> -->
+		<a href="adminusers.jsp">View/Edit Users</a>
+		<a href="admin.jsp">View/Edit Batches</a>
+		<a href="addbatch.jsp">Add Batch</a>
+		<a href="index.jsp">Home</a>
+	</div>
